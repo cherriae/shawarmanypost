@@ -1,0 +1,24 @@
+---
+import Base from '../layouts/Base.astro';
+import Card from '../components/ArticleCard.astro';
+import GameTiles from '../components/GameTiles.astro';
+import { posts } from '../lib/posts';
+const all = await posts();
+const lead = all.find((p) => p.data.featured) ?? all.find((p) => p.data.type !== 'opinion') ?? all[0];
+const rest = all.filter((p) => p !== lead);
+const grid = rest.slice(0, 3), latest = rest.slice(3, 9);
+---
+<Base title="Home" home current="home">
+  {!lead ? (
+    <div class="empty"><h2>The first edition is on its way.</h2><p>Stories will appear here as soon as they're published. In the meantime, try today's puzzles.</p><p><a class="btn pri" href="/games/">Play today's puzzles</a></p></div>
+  ) : (
+    <div class="top">
+      <Card post={lead} size="lead" level={2} />
+      {grid.length > 0 && <div class="grid">{grid.map((p) => <Card post={p} level={3} />)}</div>}
+    </div>
+  )}
+  <div class="cols">
+    {latest.length > 0 && <section><h2 class="sec">Latest</h2>{latest.map((p) => <Card post={p} size="compact" level={3} />)}<p class="meta">More in <a href="/government/">Government</a> · <a href="/participation/">Participation</a> · <a href="/opinion/">Opinion</a></p></section>}
+    <section><h2 class="sec">Play</h2><GameTiles /></section>
+  </div>
+</Base>

@@ -1,0 +1,26 @@
+---
+import Base from '../../layouts/Base.astro';
+import Card from '../../components/ArticleCard.astro';
+import { Image } from 'astro:assets';
+import { render } from 'astro:content';
+import { posts, group, kicker, fmt, SECTIONS } from '../../lib/posts';
+export async function getStaticPaths() { return (await posts()).map((post) => ({ params: { id: post.id }, props: { post } })); }
+const { post } = Astro.props;
+const d = post.data;
+const { Content } = await render(post);
+const rel = (await posts()).filter((p) => p.id !== post.id).sort((a, b) => Number(group(b) === group(post)) - Number(group(a) === group(post))).slice(0, 3);
+const mins = Math.max(1, Math.ceil((post.body ?? '').split(/\s+/).length / 230));
+---
+<Base title={d.title} description={d.subtitle} current={group(post)}>
+  {d.sample && <p class="banner">Sample article for development. Delete before publishing.</p>}
+  <article class="art">
+    <p class:list={['kicker', d.type === 'opinion' && 'op']}>{kicker(post)}</p>
+    <h1 class:list={[d.type === 'opinion' && 'it']}>{d.title}</h1>
+    <p class="dek">{d.subtitle}</p>
+    <p class="meta">By {d.author} · {fmt(d.date)}{d.updated && ` · Updated ${fmt(d.updated)}`} · {mins} min read</p>
+    {d.type === 'opinion' && <p class="note">Opinion pieces reflect the writer's view, not ShawarmanyPost's reporting.</p>}
+    {d.image && <figure><Image src={d.image.src} alt={d.image.alt} widths={[800, 1200]} sizes="(min-width:900px) 900px, 100vw" /><figcaption>{[d.image.caption, d.image.credit].filter(Boolean).join(' · ')}</figcaption></figure>}
+    <div class="prose"><Content /></div>
+  </article>
+  {rel.length > 0 && <section class="related"><h2 class="sec">More in {d.type === 'opinion' ? 'Opinion' : SECTIONS[d.category].name}</h2><div class="list">{rel.map((p) => <Card post={p} level={3} />)}</div></section>}
+</Base>

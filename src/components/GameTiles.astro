@@ -1,0 +1,12 @@
+---
+import { GAMES } from '../lib/games';
+const H = `h${Astro.props.level ?? 3}`;
+---
+<ul class="gtiles">
+  {GAMES.map((g) => (
+    <li class={g.soon ? 'gt soon' : 'gt'}>
+      <H>{g.name}</H><p>{g.pitch}</p>
+      {g.soon ? <p class="kicker">Coming soon</p> : <a class="btn pri" href={`/games/${g.id}/`}>Play {g.name}</a>}
+    </li>
+  ))}
+</ul>

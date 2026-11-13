@@ -1,0 +1,9 @@
+{"game":"roll-call","number":1,"date":"2026-11-12","title":"The Basics","questions":[
+{"q":"How many branches does the U.S. federal government have?","choices":["Two","Three","Four","Five"],"answer":1,"why":"Legislative (makes laws), executive (carries them out) and judicial (interprets them)."},
+{"q":"Which branch writes and passes laws?","choices":["Executive","Judicial","Legislative","Electoral"],"answer":2,"why":"Legislatures, like Congress or a state legislature, write and pass laws."},
+{"q":"What is it called when a president or governor rejects a bill?","choices":["A veto","A filibuster","An impeachment","A recess"],"answer":0,"why":"The bill goes back to lawmakers, who can sometimes override it."},
+{"q":"How much of Congress is needed to override a presidential veto?","choices":["A simple majority","Three-fifths","Two-thirds","Three-quarters"],"answer":2,"why":"Two-thirds of both the House and the Senate."},
+{"q":"What is the minimum voting age in U.S. federal elections?","choices":["16","18","19","21"],"answer":1,"why":"The 26th Amendment, ratified in 1971, set it at 18."},
+{"q":"What is a quorum?","choices":["A vote to end debate","The minimum number of members who must be present to do business","A meeting closed to the public","A group of committee chairs"],"answer":1,"why":"Without a quorum, a legislature or board can't take official action."},
+{"q":"What does a primary election usually decide?","choices":["Who wins public office","Which candidate represents a party in the general election","Whether a law is constitutional","How district lines are drawn"],"answer":1,"why":"Primaries pick each party's nominee; the general election picks the winner."},
+{"q":"At many city council meetings, residents speak during a set time. What is it usually called?","choices":["Public comment","Recess","Cloture","Closed session"],"answer":0,"why":"Public comment lets anyone address officials, often for two or three minutes."}]}

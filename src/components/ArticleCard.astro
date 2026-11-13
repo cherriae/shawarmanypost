@@ -1,0 +1,14 @@
+---
+import { Image } from 'astro:assets';
+import { kicker, fmt } from '../lib/posts';
+const { post, size = 'std', level = 3 } = Astro.props;
+const d = post.data;
+const H = `h${level}`;
+---
+<article class={`card ${size}`}>
+  {d.image && size !== 'compact' && <div class="frame"><Image src={d.image.src} alt={d.image.alt} widths={[480, 800, 1200]} sizes="(min-width:900px) 45vw, 100vw" loading={size === 'lead' ? 'eager' : 'lazy'} /></div>}
+  <p class:list={['kicker', d.type === 'opinion' && 'op']}>{kicker(post)}{d.sample && <span class="badge">Sample</span>}</p>
+  <H class:list={[d.type === 'opinion' && 'it']}><a href={`/posts/${post.id}/`}>{d.title}</a></H>
+  {size !== 'compact' && <p class="sub">{d.subtitle}</p>}
+  <p class="meta">{size === 'lead' && `By ${d.author} · `}{fmt(d.date)}</p>
+</article>

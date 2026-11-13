@@ -1,0 +1,13 @@
+---
+import Base from '../../layouts/Base.astro';
+import GameTiles from '../../components/GameTiles.astro';
+import { getCollection } from 'astro:content';
+import { GAMES } from '../../lib/games';
+const eds = (await getCollection('puzzles')).sort((a, b) => b.data.number - a.data.number);
+---
+<Base title="Games" current="games">
+  <h1 class="sech">Games</h1><p class="sub">Short civic puzzles. A few minutes each.</p>
+  <GameTiles level={2} />
+  <h2 class="sec">Past editions</h2>
+  {GAMES.filter((g) => !g.soon).map((g) => <p><strong>{g.name}:</strong> {eds.filter((e) => e.data.game === g.id).map((e) => <><a href={`/games/${g.id}/${e.data.number}/`}>No. {e.data.number}</a>{' '}</>)}</p>)}
+</Base>

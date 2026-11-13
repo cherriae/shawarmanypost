@@ -1,0 +1,15 @@
+---
+import Base from '../layouts/Base.astro';
+import Card from '../components/ArticleCard.astro';
+import { posts, group, SECTIONS } from '../lib/posts';
+export function getStaticPaths() { return Object.keys(SECTIONS).map((section) => ({ params: { section } })); }
+const { section } = Astro.params;
+const s = SECTIONS[section as keyof typeof SECTIONS];
+const list = (await posts()).filter((p) => group(p) === section);
+---
+<Base title={s.name} description={s.blurb} current={section}>
+  <h1 class="sech">{s.name}</h1><p class="sub">{s.blurb}</p>
+  {list.length ? <div class="list">{list.map((p) => <Card post={p} level={2} />)}</div> : (
+    <div class="empty"><h2>No {s.name} {section === 'opinion' ? 'pieces' : 'stories'} yet.</h2><p>Check back soon, or play today's puzzles.</p><p><a class="btn pri" href="/games/">Play today's puzzles</a></p></div>
+  )}
+</Base>

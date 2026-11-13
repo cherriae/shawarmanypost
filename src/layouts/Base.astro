@@ -1,0 +1,29 @@
+---
+import '@fontsource-variable/newsreader';
+import '@fontsource-variable/newsreader/wght-italic.css';
+import '@fontsource-variable/public-sans';
+import '../styles/global.css';
+const { title, description = "The State of Shawarmany's newspaper", current = '', home = false } = Astro.props;
+const nav = [['Home', '/', 'home'], ['Government', '/government/', 'government'], ['Participation', '/participation/', 'participation'], ['Opinion', '/opinion/', 'opinion'], ['Games', '/games/', 'games']];
+---
+<html lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content={description} /><link rel="icon" href="data:," />
+  <title>{home ? 'ShawarmanyPost' : `${title} · ShawarmanyPost`}</title>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="mast">
+    {home ? <h1 class="word"><a href="/">ShawarmanyPost</a></h1> : <p class="word"><a href="/">ShawarmanyPost</a></p>}
+    <p class="tag">The State of Shawarmany's newspaper</p>
+  </header>
+  <nav aria-label="Sections" class="wrap"><ul>{nav.map(([n, h, k]) => <li><a href={h} aria-current={current === k ? 'page' : undefined}>{n}</a></li>)}</ul></nav>
+  <main id="main" class="wrap"><slot /></main>
+  <footer class="wrap">
+    <p><a href="/government/">Government</a> · <a href="/participation/">Participation</a> · <a href="/opinion/">Opinion</a> · <a href="/games/">Games</a></p>
+    <p>Reporting, explainers and opinion are labeled on every story. Opinion pieces reflect the writer's view.</p>
+    <p>© 2026 ShawarmanyPost. A publication of the State of Shawarmany.</p>
+  </footer>
+</body>
+</html>

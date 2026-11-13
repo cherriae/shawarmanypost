@@ -1,0 +1,28 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import { GAMES } from '../../../lib/games';
+import { fmt } from '../../../lib/posts';
+export async function getStaticPaths() {
+  const all = (await getCollection('puzzles')).sort((a, b) => b.data.number - a.data.number);
+  return all.flatMap((p) => {
+    const game = p.data.game;
+    const out = [{ params: { game, n: String(p.data.number) }, props: { p } }];
+    if (all.find((x) => x.data.game === game) === p) out.push({ params: { game, n: undefined as any }, props: { p } });
+    return out;
+  });
+}
+const { p } = Astro.props;
+const g = GAMES.find((x) => x.id === p.data.game)!;
+const eds = (await getCollection('puzzles')).filter((e) => e.data.game === g.id).sort((a, b) => b.data.number - a.data.number);
+---
+<Base title={g.name} current="games">
+  <h1 class="sech">{g.name}</h1>
+  <p class="meta">No. {p.data.number} · {fmt(p.data.date)} · {p.data.title}</p>
+  <details open class="how"><summary>How to play</summary><p>{g.how}</p></details>
+  <div class="game" data-game={g.id} data-puzzle={JSON.stringify(p.data)}><p>Loading…</p></div>
+  <noscript><p>This puzzle needs JavaScript.</p></noscript>
+  <h2 class="sec">Past editions</h2>
+  <ul>{eds.map((e) => <li><a href={`/games/${g.id}/${e.data.number}/`} aria-current={e.id === p.id ? 'page' : undefined}>No. {e.data.number} · {e.data.title}</a></li>)}</ul>
+</Base>
+<script>import '../../../scripts/games.ts';</script>
